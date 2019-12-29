@@ -11,6 +11,8 @@
 |
 */
 
+Route::post('/users', 'UserController@store');
+
 Route::get('/', function () {
     return view('welcome');
 });
