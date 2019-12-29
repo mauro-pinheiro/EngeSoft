@@ -3,13 +3,24 @@
 namespace Tests\Feature;
 
 use App\User;
+use App\Institution;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class UserManagementTest extends TestCase
+class UserTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $data = [
+        'nome' => 'admin',
+        'email' => 'admin@admin.com',
+        'institution_id' => 'ifma',
+        'endereco' => 'rua 3',
+        'senha' => 'admin123',
+        'senha_confirmation' => 'admin123'
+    ];
+
     /**
      @test
      */
@@ -18,7 +29,7 @@ class UserManagementTest extends TestCase
         // $this->withoutExceptionHandling();
         $response = $this->post(
             '/users',
-            $this->data()
+            $this->data
         );
 
         $response->assertOk();
@@ -34,7 +45,7 @@ class UserManagementTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data(),
+                $this->data,
                 ['nome' => '']
             )
         );
@@ -51,7 +62,7 @@ class UserManagementTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data(),
+                $this->data,
                 ['email' => '']
             )
         );
@@ -67,12 +78,12 @@ class UserManagementTest extends TestCase
         // $this->withoutExceptionHandling();
         $this->post(
             '/users',
-            $this->data(),
+            $this->data,
         );
 
         $response = $this->post(
             '/users',
-            $this->data(),
+            $this->data,
         );
 
         $response->assertSessionHasErrors('email');
@@ -87,7 +98,7 @@ class UserManagementTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data(),
+                $this->data,
                 ['email' => 'admin']
             )
         );
@@ -104,12 +115,12 @@ class UserManagementTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data(),
-                ['instituicao' => '']
+                $this->data,
+                ['institution_id' => '']
             )
         );
 
-        $response->assertSessionHasErrors('instituicao');
+        $response->assertSessionHasErrors('institution_id');
     }
 
     /**
@@ -121,7 +132,7 @@ class UserManagementTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data(),
+                $this->data,
                 ['endereco' => '']
             )
         );
@@ -138,7 +149,7 @@ class UserManagementTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data(),
+                $this->data,
                 ['senha' => '']
             )
         );
@@ -155,7 +166,7 @@ class UserManagementTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data(),
+                $this->data,
                 ['senha' => '123']
             )
         );
@@ -172,7 +183,7 @@ class UserManagementTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data(),
+                $this->data,
                 ['senha_confirmation' => 'admin1234']
             )
         );
@@ -180,15 +191,17 @@ class UserManagementTest extends TestCase
         $response->assertSessionHasErrors('senha');
     }
 
-    protected function data()
+    /**
+      @test
+     */
+    public function deve_adicionar_instituicao_automaticamente()
     {
-        return [
-            'nome' => 'admin',
-            'email' => 'admin@admin.com',
-            'instituicao' => 'ifma',
-            'endereco' => 'rua 3',
-            'senha' => 'admin123',
-            'senha_confirmation' => 'admin123'
-        ];
+        $this->withoutExceptionHandling();
+        $response = $this->post(
+            '/users',
+            $this->data
+        );
+
+        $this->assertCount(1, Institution::all());
     }
 }
