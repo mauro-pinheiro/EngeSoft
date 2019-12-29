@@ -13,6 +13,8 @@
 
 Route::post('/users', 'UserController@store');
 
+Route::post('/instituitions', 'InstitutionController@store');
+
 Route::get('/', function () {
     return view('welcome');
 });
