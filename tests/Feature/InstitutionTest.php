@@ -13,10 +13,7 @@ class InstitutionTest extends TestCase
 
     protected $data = ['nome' => 'ifma'];
 
-    /**
-     @test
-     */
-    public function eh_possivel_adicionar_uma_instituicao()
+    public function testCreateNewInstitution()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post('/instituitions', $this->data);
@@ -25,10 +22,7 @@ class InstitutionTest extends TestCase
         $this->assertCount(1, Institution::all());
     }
 
-    /**
-     @test
-     */
-    public function o_nome_eh_obrigatorio()
+    public function testInstituitionNameIsRequired()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(

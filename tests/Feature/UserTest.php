@@ -21,10 +21,7 @@ class UserTest extends TestCase
         'senha_confirmation' => 'admin123'
     ];
 
-    /**
-     @test
-     */
-    public function um_user_pode_ser_cadastrado()
+    public function testCreateNewUser()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
@@ -39,7 +36,7 @@ class UserTest extends TestCase
     /**
      @test
      */
-    public function o_nome_eh_obrigatorio()
+    public function testUserNameIsRequired()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
@@ -53,10 +50,7 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('nome');
     }
 
-    /**
-     @test
-     */
-    public function o_email_eh_obrigatorio()
+    public function testUserEmailIsRequired()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
@@ -70,10 +64,7 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('email');
     }
 
-    /**
-     @test
-     */
-    public function o_email_eh_unico()
+    public function testUserNameIsUnique()
     {
         // $this->withoutExceptionHandling();
         $this->post(
@@ -89,10 +80,7 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('email');
     }
 
-    /**
-     @test
-     */
-    public function o_email_eh_valido()
+    public function testUserEmailIsValide()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
@@ -106,10 +94,7 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('email');
     }
 
-    /**
-     @test
-     */
-    public function o_instituicao_eh_obrigatorio()
+    public function testUserInstitutionIsRequired()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
@@ -126,7 +111,7 @@ class UserTest extends TestCase
     /**
      @test
      */
-    public function o_endereco_eh_obrigatorio()
+    public function testUserAddressIsRequired()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
@@ -143,7 +128,7 @@ class UserTest extends TestCase
     /**
      @test
      */
-    public function o_senha_eh_obrigatorio()
+    public function testUserPasswordIsRequired()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
@@ -160,7 +145,7 @@ class UserTest extends TestCase
     /**
      @test
      */
-    public function o_senha_eh_com_no_min_de_8_chars()
+    public function testUserPasswordHasMinOf8Chars()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
@@ -177,7 +162,7 @@ class UserTest extends TestCase
     /**
      @test
      */
-    public function o_senha_deve_ser_confirmada()
+    public function testUserPasswordConfirmation()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
@@ -194,7 +179,7 @@ class UserTest extends TestCase
     /**
       @test
      */
-    public function deve_adicionar_instituicao_automaticamente()
+    public function testUserInstitutionCreatedAutomatically()
     {
         $this->withoutExceptionHandling();
         $response = $this->post(
