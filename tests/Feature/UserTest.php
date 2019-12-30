@@ -29,6 +29,8 @@ class UserTest extends TestCase
             $this->data
         );
 
+        dd(User::first()->institution);
+
         $response->assertOk();
         $this->assertCount(1, User::all());
     }
@@ -108,9 +110,6 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('institution_id');
     }
 
-    /**
-     @test
-     */
     public function testUserAddressIsRequired()
     {
         // $this->withoutExceptionHandling();
@@ -125,9 +124,6 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('endereco');
     }
 
-    /**
-     @test
-     */
     public function testUserPasswordIsRequired()
     {
         // $this->withoutExceptionHandling();
@@ -142,9 +138,6 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('senha');
     }
 
-    /**
-     @test
-     */
     public function testUserPasswordHasMinOf8Chars()
     {
         // $this->withoutExceptionHandling();
@@ -159,9 +152,6 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('senha');
     }
 
-    /**
-     @test
-     */
     public function testUserPasswordConfirmation()
     {
         // $this->withoutExceptionHandling();
@@ -176,9 +166,6 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('senha');
     }
 
-    /**
-      @test
-     */
     public function testUserInstitutionCreatedAutomatically()
     {
         $this->withoutExceptionHandling();

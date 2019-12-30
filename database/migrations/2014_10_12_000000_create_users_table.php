@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('nome');
             $table->string('email')->unique();
             $table->unsignedBigInteger('institution_id');
+            $table->foreign('institution_id')->references('id')->on('institutions');
             $table->string('endereco');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('senha');

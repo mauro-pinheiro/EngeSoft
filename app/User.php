@@ -45,6 +45,11 @@ class User extends Authenticatable
     {
         $this->attributes['institution_id'] = Institution::firstOrCreate([
             'nome' => $instituicao
-        ]);
+        ])->id;
+    }
+
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
     }
 }
