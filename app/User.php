@@ -16,7 +16,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'nome',
+        'email',
+        'institution_id',
+        'endereco',
+        'senha',
     ];
 
     /**
@@ -36,4 +40,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected function setInstitutionIdAttribute($instituicao)
+    {
+        $this->attributes['institution_id'] = Institution::firstOrCreate([
+            'nome' => $instituicao
+        ]);
+    }
 }
