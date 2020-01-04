@@ -20,7 +20,8 @@ class UserController extends Controller
         return request()->validate([
             'nome' => 'required',
             'email' => 'required|unique:users|email',
-            'institution_id' => 'required',
+            'institution_id' => '',
+            'theme' => '',
             'endereco' => 'required',
             'senha' => 'required|min:8|confirmed'
         ]);

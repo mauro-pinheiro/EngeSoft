@@ -19,6 +19,7 @@ class User extends Authenticatable
         'nome',
         'email',
         'institution_id',
+        'theme',
         'endereco',
         'senha',
     ];
@@ -43,10 +44,14 @@ class User extends Authenticatable
 
     protected function setInstitutionIdAttribute($instituicao)
     {
-        $this->attributes['institution_id'] = Institution::firstOrCreate([
-            'nome' => $instituicao
-        ])->id;
+        if ($instituicao != null) {
+            $this->attributes['institution_id'] = Institution::firstOrCreate([
+                'nome' => $instituicao
+            ])->id;
+        }
     }
+
+    /** Relationships */
 
     public function institution()
     {

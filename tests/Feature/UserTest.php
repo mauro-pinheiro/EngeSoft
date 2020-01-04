@@ -15,7 +15,6 @@ class UserTest extends TestCase
     protected $data = [
         'nome' => 'admin',
         'email' => 'admin@admin.com',
-        'institution_id' => 'ifma',
         'endereco' => 'rua 3',
         'senha' => 'admin123',
         'senha_confirmation' => 'admin123'
@@ -63,7 +62,7 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('email');
     }
 
-    public function testUserNameIsUnique()
+    public function testUserEmailIsUnique()
     {
         // $this->withoutExceptionHandling();
         $this->post(
@@ -75,6 +74,7 @@ class UserTest extends TestCase
             '/users',
             $this->data,
         );
+
 
         $response->assertSessionHasErrors('email');
     }
@@ -93,7 +93,7 @@ class UserTest extends TestCase
         $response->assertSessionHasErrors('email');
     }
 
-    public function testUserInstitutionIsRequired()
+    public function testUserInstitutionIsNotRequired()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
@@ -104,7 +104,7 @@ class UserTest extends TestCase
             )
         );
 
-        $response->assertSessionHasErrors('institution_id');
+        $response->assertOk();
     }
 
     public function testUserAddressIsRequired()
@@ -168,7 +168,10 @@ class UserTest extends TestCase
         $this->withoutExceptionHandling();
         $response = $this->post(
             '/users',
-            $this->data
+            array_merge(
+                $this->data,
+                ['institution_id' => 'ifma']
+            )
         );
 
         $this->assertCount(1, Institution::all());
