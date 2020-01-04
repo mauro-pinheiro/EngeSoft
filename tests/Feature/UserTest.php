@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Institution;
+use App\Theme;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -13,16 +14,17 @@ class UserTest extends TestCase
     use RefreshDatabase;
 
     protected $data = [
-        'nome' => 'admin',
+        'name' => 'admin',
         'email' => 'admin@admin.com',
-        'endereco' => 'rua 3',
-        'senha' => 'admin123',
-        'senha_confirmation' => 'admin123'
+        'institution_id' => 'ifma',
+        'address' => 'rua 3',
+        'password' => 'admin123',
+        'password_confirmation' => 'admin123'
     ];
 
     public function testCreateNewUser()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         $response = $this->post(
             '/users',
             $this->data
@@ -41,11 +43,11 @@ class UserTest extends TestCase
             '/users',
             array_merge(
                 $this->data,
-                ['nome' => '']
+                ['name' => '']
             )
         );
 
-        $response->assertSessionHasErrors('nome');
+        $response->assertSessionHasErrors('name');
     }
 
     public function testUserEmailIsRequired()
@@ -114,11 +116,11 @@ class UserTest extends TestCase
             '/users',
             array_merge(
                 $this->data,
-                ['endereco' => '']
+                ['address' => '']
             )
         );
 
-        $response->assertSessionHasErrors('endereco');
+        $response->assertSessionHasErrors('address');
     }
 
     public function testUserPasswordIsRequired()
@@ -128,11 +130,11 @@ class UserTest extends TestCase
             '/users',
             array_merge(
                 $this->data,
-                ['senha' => '']
+                ['password' => '']
             )
         );
 
-        $response->assertSessionHasErrors('senha');
+        $response->assertSessionHasErrors('password');
     }
 
     public function testUserPasswordHasMinOf8Chars()
@@ -142,11 +144,11 @@ class UserTest extends TestCase
             '/users',
             array_merge(
                 $this->data,
-                ['senha' => '123']
+                ['password' => '123']
             )
         );
 
-        $response->assertSessionHasErrors('senha');
+        $response->assertSessionHasErrors('password');
     }
 
     public function testUserPasswordConfirmation()
@@ -156,16 +158,16 @@ class UserTest extends TestCase
             '/users',
             array_merge(
                 $this->data,
-                ['senha_confirmation' => 'admin1234']
+                ['password_confirmation' => 'admin1234']
             )
         );
 
-        $response->assertSessionHasErrors('senha');
+        $response->assertSessionHasErrors('password');
     }
 
     public function testUserInstitutionCreatedAutomatically()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $response = $this->post(
             '/users',
             array_merge(
@@ -175,5 +177,39 @@ class UserTest extends TestCase
         );
 
         $this->assertCount(1, Institution::all());
+        $this->assertEquals(User::first()->institution, Institution::first());
+    }
+
+    public function testUserThemeCreatedAutomatically()
+    {
+        // $this->withoutExceptionHandling();
+        $themes = ['database', 'A.I'];
+        $response = $this->post(
+            '/users',
+            array_merge(
+                $this->data,
+                ['themes' => $themes]
+            )
+        );
+
+        $this->assertCount(2, Theme::all());
+        $this->assertCount(2, User::first()->themes);
+        $this->assertEquals(User::first()->themes->first()->pivot->theme_id, Theme::find(1)->id);
+        $this->assertEquals(User::first()->themes->get(1)->pivot->theme_id, Theme::find(2)->id);
+    }
+
+    public function testCannotCreateDuplicatedThemesFromTheThemesList()
+    {
+        $this->withoutExceptionHandling();
+        $themes = ['database', 'A.I', 'database'];
+        $response = $this->post(
+            '/users',
+            array_merge(
+                $this->data,
+                ['themes' => $themes]
+            )
+        );
+
+        $this->assertCount(2, Theme::all());
     }
 }

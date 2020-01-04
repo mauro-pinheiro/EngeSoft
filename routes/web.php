@@ -15,6 +15,10 @@ Route::post('/users', 'UserController@store');
 
 Route::post('/instituitions', 'InstitutionController@store');
 
+Route::post('/themes', 'ThemeController@store');
+
+Route::post('/editions', 'EditionController@store');
+
 Route::get('/', function () {
     return view('welcome');
 });

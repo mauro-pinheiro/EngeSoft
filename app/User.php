@@ -16,12 +16,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nome',
+        'name',
         'email',
         'institution_id',
-        'theme',
-        'endereco',
-        'senha',
+        'address',
+        'password',
     ];
 
     /**
@@ -30,9 +29,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
-
     /**
      * The attributes that should be cast to native types.
      *
@@ -51,10 +49,21 @@ class User extends Authenticatable
         }
     }
 
+
     /** Relationships */
 
     public function institution()
     {
         return $this->belongsTo(Institution::class);
+    }
+
+    public function themes()
+    {
+        return $this->belongsToMany(Theme::class)->withTimestamps();
+    }
+
+    public function edition()
+    {
+        return $this->hasOne(Edition::class);
     }
 }
