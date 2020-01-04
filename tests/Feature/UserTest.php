@@ -29,15 +29,12 @@ class UserTest extends TestCase
             $this->data
         );
 
-        dd(User::first()->institution);
+        // dd(User::first()->institution);
 
         $response->assertOk();
         $this->assertCount(1, User::all());
     }
 
-    /**
-     @test
-     */
     public function testUserNameIsRequired()
     {
         // $this->withoutExceptionHandling();
