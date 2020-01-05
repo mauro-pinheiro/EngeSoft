@@ -34,5 +34,6 @@ class InstitutionTest extends TestCase
         );
 
         $response->assertSessionHasErrors('nome');
+        $this->assertCount(0, Institution::all());
     }
 }

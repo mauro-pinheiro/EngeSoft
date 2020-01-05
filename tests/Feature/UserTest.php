@@ -48,6 +48,7 @@ class UserTest extends TestCase
         );
 
         $response->assertSessionHasErrors('name');
+        $this->assertCount(0, User::all());
     }
 
     public function testUserEmailIsRequired()
@@ -62,6 +63,7 @@ class UserTest extends TestCase
         );
 
         $response->assertSessionHasErrors('email');
+        $this->assertCount(0, User::all());
     }
 
     public function testUserEmailIsUnique()
@@ -79,6 +81,7 @@ class UserTest extends TestCase
 
 
         $response->assertSessionHasErrors('email');
+        $this->assertCount(1, User::all());
     }
 
     public function testUserEmailIsValide()
@@ -93,6 +96,7 @@ class UserTest extends TestCase
         );
 
         $response->assertSessionHasErrors('email');
+        $this->assertCount(0, User::all());
     }
 
     public function testUserInstitutionIsNotRequired()
@@ -107,6 +111,7 @@ class UserTest extends TestCase
         );
 
         $response->assertOk();
+        $this->assertCount(1, User::all());
     }
 
     public function testUserAddressIsRequired()
@@ -121,6 +126,7 @@ class UserTest extends TestCase
         );
 
         $response->assertSessionHasErrors('address');
+        $this->assertCount(0, User::all());
     }
 
     public function testUserPasswordIsRequired()
@@ -135,6 +141,7 @@ class UserTest extends TestCase
         );
 
         $response->assertSessionHasErrors('password');
+        $this->assertCount(0, User::all());
     }
 
     public function testUserPasswordHasMinOf8Chars()
@@ -149,6 +156,7 @@ class UserTest extends TestCase
         );
 
         $response->assertSessionHasErrors('password');
+        $this->assertCount(0, User::all());
     }
 
     public function testUserPasswordConfirmation()
@@ -163,6 +171,7 @@ class UserTest extends TestCase
         );
 
         $response->assertSessionHasErrors('password');
+        $this->assertCount(0, User::all());
     }
 
     public function testUserInstitutionCreatedAutomatically()

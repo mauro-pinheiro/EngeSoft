@@ -37,6 +37,7 @@ class ThemeTest extends TestCase
         );
 
         $response->assertSessionHasErrors('name');
+        $this->assertCount(0, Theme::all());
     }
 
     public function testNameIsUnique()
@@ -46,6 +47,7 @@ class ThemeTest extends TestCase
         $response = $this->post('/themes', $this->data);
 
         $response->assertSessionHasErrors('name');
+        $this->assertCount(1, Theme::all());
     }
 
     public function testDescriptionIsNotRequired()
@@ -60,5 +62,6 @@ class ThemeTest extends TestCase
         );
 
         $response->assertOk();
+        $this->assertCount(1, Theme::all());
     }
 }

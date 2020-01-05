@@ -15,6 +15,7 @@ class EditionController extends Controller
             'month' => 'nullable',
             'year' => 'nullable',
             'theme_id' => 'required',
+            'user_id' => 'required'
         ]);
     }
 

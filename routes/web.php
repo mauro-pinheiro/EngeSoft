@@ -19,6 +19,8 @@ Route::post('/themes', 'ThemeController@store');
 
 Route::post('/editions', 'EditionController@store');
 
+Route::post('/articles', 'ArticleController@store');
+
 Route::get('/', function () {
     return view('welcome');
 });
