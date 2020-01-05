@@ -12,22 +12,29 @@ use Tests\TestCase;
 class UserTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
-    protected $data = [
-        'name' => 'admin',
-        'email' => 'admin@admin.com',
-        'institution_id' => 'ifma',
-        'address' => 'rua 3',
-        'password' => 'admin123',
-        'password_confirmation' => 'admin123'
-    ];
+    protected function data()
+    {
+        $password = $this->faker->password(8);
+        $data = [
+            'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'institution_id' => factory(Institution::class)->create()->id,
+            'address' => $this->faker->address,
+            'password' => $password,
+            'password_confirmation' => $password
+        ];
+        // dump($data);
+        return $data;
+    }
 
     public function testCreateNewUser()
     {
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
         $response = $this->post(
             '/users',
-            $this->data
+            $this->data()
         );
 
         // dd(User::first()->institution);
@@ -42,7 +49,7 @@ class UserTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
+                $this->data(),
                 ['name' => '']
             )
         );
@@ -57,7 +64,7 @@ class UserTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
+                $this->data(),
                 ['email' => '']
             )
         );
@@ -69,14 +76,22 @@ class UserTest extends TestCase
     public function testUserEmailIsUnique()
     {
         // $this->withoutExceptionHandling();
+        $email = $this->data()['email'];
+        // dump($email);
         $this->post(
             '/users',
-            $this->data,
+            array_merge(
+                $this->data(),
+                ['email' => $email]
+            )
         );
 
         $response = $this->post(
             '/users',
-            $this->data,
+            array_merge(
+                $this->data(),
+                ['email' => $email]
+            )
         );
 
 
@@ -90,7 +105,7 @@ class UserTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
+                $this->data(),
                 ['email' => 'admin']
             )
         );
@@ -101,11 +116,11 @@ class UserTest extends TestCase
 
     public function testUserInstitutionIsNotRequired()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
+                $this->data(),
                 ['institution_id' => '']
             )
         );
@@ -120,7 +135,7 @@ class UserTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
+                $this->data(),
                 ['address' => '']
             )
         );
@@ -135,7 +150,7 @@ class UserTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
+                $this->data(),
                 ['password' => '']
             )
         );
@@ -150,7 +165,7 @@ class UserTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
+                $this->data(),
                 ['password' => '123']
             )
         );
@@ -165,7 +180,7 @@ class UserTest extends TestCase
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
+                $this->data(),
                 ['password_confirmation' => 'admin1234']
             )
         );
@@ -174,51 +189,33 @@ class UserTest extends TestCase
         $this->assertCount(0, User::all());
     }
 
-    public function testUserInstitutionCreatedAutomatically()
-    {
-        // $this->withoutExceptionHandling();
-        $response = $this->post(
-            '/users',
-            array_merge(
-                $this->data,
-                ['institution_id' => 'ifma']
-            )
-        );
+    // public function testUserInstitutionCreatedAutomatically()
+    // {
+    //     $this->withoutExceptionHandling();
+    //     $response = $this->post(
+    //         '/users',
+    //         array_merge(
+    //             $this->data(),
+    //             ['institution_id' => 'ifma']
+    //         )
+    //     );
 
-        $this->assertCount(1, Institution::all());
-        $this->assertEquals(User::first()->institution, Institution::first());
-    }
+    //     $this->assertCount(1, Institution::all());
+    //     $this->assertEquals(User::first()->institution, Institution::first());
+    // }
 
-    public function testUserThemeCreatedAutomatically()
-    {
-        // $this->withoutExceptionHandling();
-        $themes = ['database', 'A.I'];
-        $response = $this->post(
-            '/users',
-            array_merge(
-                $this->data,
-                ['themes' => $themes]
-            )
-        );
+    // public function testCannotCreateDuplicatedThemesFromTheThemesList()
+    // {
+    //     $this->withoutExceptionHandling();
+    //     $themes = ['database', 'A.I', 'database'];
+    //     $response = $this->post(
+    //         '/users',
+    //         array_merge(
+    //             $this->data(),
+    //             ['themes' => $themes]
+    //         )
+    //     );
 
-        $this->assertCount(2, Theme::all());
-        $this->assertCount(2, User::first()->themes);
-        $this->assertEquals(User::first()->themes->first()->pivot->theme_id, Theme::find(1)->id);
-        $this->assertEquals(User::first()->themes->get(1)->pivot->theme_id, Theme::find(2)->id);
-    }
-
-    public function testCannotCreateDuplicatedThemesFromTheThemesList()
-    {
-        $this->withoutExceptionHandling();
-        $themes = ['database', 'A.I', 'database'];
-        $response = $this->post(
-            '/users',
-            array_merge(
-                $this->data,
-                ['themes' => $themes]
-            )
-        );
-
-        $this->assertCount(2, Theme::all());
-    }
+    //     $this->assertCount(2, Theme::all());
+    // }
 }

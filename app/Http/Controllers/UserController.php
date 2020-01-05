@@ -32,13 +32,21 @@ class UserController extends Controller
 
     public function validateRequest()
     {
-        return request()->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users|email',
-            'institution_id' => 'nullable',
-            // 'themes' => 'nullable',
-            'address' => 'required',
-            'password' => 'required|min:8|confirmed'
-        ]);
+        return request()->validate(
+            [
+                'name' => 'required',
+                'email' => 'required|unique:users|email',
+                'institution_id' => 'nullable',
+                // 'themes' => 'nullable',
+                'address' => 'required',
+                'password' => 'required|min:8|confirmed'
+            ],
+            [
+                'required' => 'O :attribute é obrigatório.',
+                'email.unique' => 'Email já utilizado por outro usuário.',
+                'password.min' => 'O :attribute precisa ter no mínimo :min',
+                'password.confirmed' => 'As senhas não conferem'
+            ]
+        );
     }
 }

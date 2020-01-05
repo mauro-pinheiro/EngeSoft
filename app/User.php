@@ -40,15 +40,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected function setInstitutionIdAttribute($instituicao)
-    {
-        if ($instituicao != null) {
-            $this->attributes['institution_id'] = Institution::firstOrCreate([
-                'nome' => $instituicao
-            ])->id;
-        }
-    }
-
 
     /** Relationships */
 
@@ -65,5 +56,10 @@ class User extends Authenticatable
     public function edition()
     {
         return $this->hasOne(Edition::class);
+    }
+
+    public function articles()
+    {
+        return $this->belongsToMany(Articles::class);
     }
 }
