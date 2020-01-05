@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Edition;
+use App\User;
 use Illuminate\Http\Request;
 
 class EditionController extends Controller

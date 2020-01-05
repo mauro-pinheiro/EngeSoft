@@ -10,19 +10,19 @@ class Edition extends Model
         'volume', 'number', 'month', 'year', 'theme_id', 'user_id'
     ];
 
-    public function setThemeIdAttribute($theme)
-    {
-        if ($theme != null) {
-            $this->attributes['theme_id'] = Theme::firstOrCreate([
-                'name' => $theme
-            ])->id;
-        }
-    }
-
-    // public function setUserIdAttribute($user_email)
+    // public function setThemeIdAttribute($theme)
     // {
-    //     if ($user_email != null) {
-    //         $user = User::where('email', $user_email)->first();
+    //     if ($theme != null) {
+    //         $this->attributes['theme_id'] = Theme::firstOrCreate([
+    //             'name' => $theme
+    //         ])->id;
+    //     }
+    // }
+
+    // public function setUserIdAttribute($user_id)
+    // {
+    //     if ($user_id != null) {
+    //         $user = User::where('email', $user_id)->first();
     //         if ($user != null)
     //             $this->attributes['user_id'] = $user->id;
     //     }
@@ -30,6 +30,11 @@ class Edition extends Model
 
     public function leadEditor()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function theme()
+    {
+        return $this->belongsTo(Theme::class);
     }
 }

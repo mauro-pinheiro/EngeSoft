@@ -10,17 +10,20 @@ use Tests\TestCase;
 class ThemeTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
-    protected $data = [
-        'name' => 'database',
-        'description' => 'uma descrição'
-    ];
+    protected function data()
+    {
+        return [
+            'name' => $this->faker->unique()->words(3, true),
+            'description' => $this->faker->text()
+        ];
+    }
 
     public function testCreateTheme()
     {
         // $this->withoutExceptionHandling();
-        $response = $this->post('/themes', $this->data);
-
+        $response = $this->post('/themes', $this->data());
         $response->assertOk();
         $this->assertCount(1, Theme::all());
     }
@@ -31,7 +34,7 @@ class ThemeTest extends TestCase
         $response = $this->post(
             '/themes',
             array_merge(
-                $this->data,
+                $this->data(),
                 ['name' => '']
             )
         );
@@ -43,9 +46,21 @@ class ThemeTest extends TestCase
     public function testNameIsUnique()
     {
         // $this->withoutExceptionHandling();
-        $this->post('/themes', $this->data);
-        $response = $this->post('/themes', $this->data);
-
+        $name = $this->data()['name'];
+        $this->post(
+            '/themes',
+            array_merge(
+                $this->data(),
+                ['name' => $name]
+            )
+        );
+        $response = $this->post(
+            '/themes',
+            array_merge(
+                $this->data(),
+                ['name' => $name]
+            )
+        );
         $response->assertSessionHasErrors('name');
         $this->assertCount(1, Theme::all());
     }
@@ -56,7 +71,7 @@ class ThemeTest extends TestCase
         $response = $this->post(
             '/themes',
             array_merge(
-                $this->data,
+                $this->data(),
                 ['description' => '']
             )
         );

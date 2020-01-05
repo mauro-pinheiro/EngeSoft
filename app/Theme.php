@@ -14,4 +14,9 @@ class Theme extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function editions()
+    {
+        return $this->hasMany(Edition::class);
+    }
 }
