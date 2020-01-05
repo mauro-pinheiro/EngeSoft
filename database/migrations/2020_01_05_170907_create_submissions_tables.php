@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArticleUserTables extends Migration
+class CreateSubmissionsTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateArticleUserTables extends Migration
      */
     public function up()
     {
-        Schema::create('article_user', function (Blueprint $table) {
+        Schema::create('submissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('article_id');
-            $table->foreign('article_id')->references('id')->on('articles');
-            $table->bigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ class CreateArticleUserTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('article_user');
+        Schema::dropIfExists('submissions');
     }
 }

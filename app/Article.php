@@ -9,4 +9,9 @@ class Article extends Model
     protected $fillable = [
         'title', 'file'
     ];
+
+    public function authors()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
