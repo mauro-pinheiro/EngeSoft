@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Institution extends Model
 {
-    protected $fillable = ['nome'];
+    protected $fillable = ['name'];
 
     public function users()
     {

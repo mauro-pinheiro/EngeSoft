@@ -9,14 +9,13 @@ class InstitutionController extends Controller
 {
     public function store()
     {
-        $data = $this->validateRequest();
-        Institution::create($data);
+        Institution::create($this->validateRequest());
     }
 
     protected function validateRequest()
     {
         return request()->validate([
-            'nome' => 'required'
+            'name' => 'required'
         ]);
     }
 }
