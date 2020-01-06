@@ -24,6 +24,8 @@ Route::post('/articles/{article}/authors', 'ArticleController@addAuthor');
 
 Route::post('/submissions', 'SubmissionController@store');
 
+Route::post('/evaluations', 'EvaluationController@store');
+
 Route::get('/', function () {
     return view('welcome');
 });

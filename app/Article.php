@@ -19,4 +19,11 @@ class Article extends Model
     {
         return $this->belongsToMany(Edition::class, 'submissions')->withPivot('number', 'status');
     }
+
+    public function evaluators()
+    {
+        return $this->belongsToMany(User::class, 'evaluations')
+            ->withPivot('originality', 'content', 'presentation')
+            ->withTimestamps();
+    }
 }

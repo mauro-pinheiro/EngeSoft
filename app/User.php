@@ -62,4 +62,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Article::class);
     }
+
+    public function evaluations()
+    {
+        return $this->belongsToMany(Article::class, 'evaluations')
+            ->withPivot(['originality', 'content', 'presentation'])
+            ->withTimestamps();
+    }
 }
