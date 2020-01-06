@@ -37,4 +37,11 @@ class Edition extends Model
     {
         return $this->belongsTo(Theme::class);
     }
+
+    public function articles()
+    {
+        return $this->belongsToMany(Article::class, 'submissions')
+            ->wherePivot('number', 'status')
+            ->withTimestamps();
+    }
 }

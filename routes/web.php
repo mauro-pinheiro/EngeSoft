@@ -20,7 +20,9 @@ Route::post('/themes', 'ThemeController@store');
 Route::post('/editions', 'EditionController@store');
 
 Route::post('/articles', 'ArticleController@store');
-Route::post('/articles/{article}/author', 'ArticleController@addAuthor');
+Route::post('/articles/{article}/authors', 'ArticleController@addAuthor');
+
+Route::post('/submissions', 'SubmissionController@store');
 
 Route::get('/', function () {
     return view('welcome');

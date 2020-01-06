@@ -65,10 +65,10 @@ class ArticleTest extends TestCase
         $this->withoutExceptionHandling();
         $this->post('/articles', $this->data());
         $num_authors = $this->faker->randomDigit;
-        $user = factory(User::class, $num_authors)->create();
+        $users = factory(User::class, $num_authors)->create();
 
-        $response = $this->post('/articles/1/author', [
-            'author' => $user
+        $response = $this->post('/articles/1/authors', [
+            'authors' => $users
         ]);
 
         // dd(Article::find(1)->authors);

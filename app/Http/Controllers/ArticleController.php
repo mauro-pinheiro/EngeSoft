@@ -32,7 +32,7 @@ class ArticleController extends Controller
     public function addAuthor(Article $article)
     {
         // dd(request()->author);
-        $data = collect(request()->author);
+        $data = collect(request()->authors);
 
         $article->authors()->attach($data->map(function ($d) {
             return $d->id;

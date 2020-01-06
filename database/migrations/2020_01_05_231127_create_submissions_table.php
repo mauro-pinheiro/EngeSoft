@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubmissionsTables extends Migration
+class CreateSubmissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,6 +15,17 @@ class CreateSubmissionsTables extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('number');
+            $table->enum('status', [
+                'I',        //Incompleto
+                'P',        //Pendente
+                'A',        //Avalidado
+                'S'         //Selecionado
+            ]);
+            $table->bigInteger('article_id');
+            $table->foreign('article_id')->references('id')->on('articles');
+            $table->bigInteger('edition_id');
+            $table->foreign('edition_id')->references('id')->on('editions');
             $table->timestamps();
         });
     }
