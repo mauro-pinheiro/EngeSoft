@@ -12,7 +12,8 @@
         "caouecs/laravel-lang": "~4.0",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.9",
-        "laravel/framework": "^6.2",
+        "jeroennoten/laravel-adminlte": "^3.0",
+        "laravel/framework": "^6.9",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^1.1"
     },
@@ -20,7 +21,7 @@
         "facade/ignition": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^8.0"
+        "phpunit/phpunit": "^8.5"
     },
     "config": {
         "optimize-autoloader": true,
