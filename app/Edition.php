@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Edition extends Model
 {
     protected $fillable = [
-        'volume', 'number', 'month', 'year', 'theme_id', 'user_id'
+        'volume', 'number', 'month', 'year', 'theme_id', 'user_id', 'publicada'
     ];
 
     // public function setThemeIdAttribute($theme)
@@ -38,10 +38,8 @@ class Edition extends Model
         return $this->belongsTo(Theme::class);
     }
 
-    public function articles()
+    public function submissions()
     {
-        return $this->belongsToMany(Article::class, 'submissions')
-            ->wherePivot('number', 'status')
-            ->withTimestamps();
+        return $this->hasMany(Submission::class);
     }
 }

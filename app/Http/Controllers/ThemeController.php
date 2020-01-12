@@ -17,5 +17,11 @@ class ThemeController extends Controller
     public function store()
     {
         Theme::create($this->validadeRequest());
+        return redirect()->back();
+    }
+
+    public function create()
+    {
+        return view('themes.create');
     }
 }

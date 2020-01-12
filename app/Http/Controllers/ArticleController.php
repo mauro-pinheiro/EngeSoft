@@ -8,16 +8,17 @@ use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
-    protected function validateRequest()
-    {
-        return request()->validate([
-            'title' => 'required',
-            'file' => 'nullable',
-        ]);
-    }
+    // protected function validateRequest()
+    // {
+    //     return request()->validate([
+    //         'title' => 'required',
+    //         'file' => 'nullable',
+    //     ]);
+    // }
 
     public function store()
     {
+        // dd(request()->all());
         $validator = Validator::make(
             request()->all(),
             [
@@ -25,17 +26,27 @@ class ArticleController extends Controller
                 'file' => 'nullable',
             ]
         );
+
+
         $data = $validator->validate();
-        Article::create($data);
+        $article = Article::create($data);
+        $data = collect(request()->authors);
+        return redirect('articles/' . $article->id);
     }
 
     public function addAuthor(Article $article)
     {
         // dd(request()->author);
+        // $author = Author::where('email', Requ)
         $data = collect(request()->authors);
 
         $article->authors()->attach($data->map(function ($d) {
             return $d->id;
         }));
+    }
+
+    public function show(Article $article)
+    {
+        return view('articles.show', compact('article'));
     }
 }

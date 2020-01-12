@@ -1,0 +1,21 @@
+#body{
+    grid-area: body;
+}
+
+#body form{
+    width: 100%;
+    display: grid;
+
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: .5rem;
+}
+
+label{
+    display: grid;
+    grid-template-columns: 1fr 5fr 2fr;
+    gap: .5rem;
+}
+
+table{
+    margin-top: 2rem;
+}

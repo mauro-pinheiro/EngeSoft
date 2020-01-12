@@ -1,0 +1,37 @@
+.top-bar {
+    grid-area: top-bar;
+  }
+  
+  .top-bar ul {
+    list-style-type: none;
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  .top-bar li:not(.sign) {
+    float: left;
+    border-right: 1px solid #bbb;
+  }
+  
+  .top-bar li.sign {
+    float: right;
+    border-left: 1px solid #bbb;
+  }
+  
+  .top-bar li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 0.4rem;
+    text-decoration: none;
+    font-size: 1em;
+  }
+  
+  .active {
+    background-color: #4caf50;
+  }
+  
+  .top-bar li:hover:not(.active) {
+    background-color: #111;
+    cursor: pointer;
+  }

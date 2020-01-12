@@ -15,16 +15,18 @@ class CreateSubmissionsTable extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('number');
+            $table->string('number')->nullable();
             $table->enum('status', [
                 'I',        //Incompleto
                 'P',        //Pendente
                 'A',        //Avalidado
                 'S'         //Selecionado
             ]);
-            $table->bigInteger('article_id');
+            $table->bigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->bigInteger('article_id')->nullable();
             $table->foreign('article_id')->references('id')->on('articles');
-            $table->bigInteger('edition_id');
+            $table->bigInteger('edition_id')->nullable();
             $table->foreign('edition_id')->references('id')->on('editions');
             $table->timestamps();
         });

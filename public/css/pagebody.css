@@ -1,0 +1,13 @@
+.pagebody{
+    /* display: block; */
+    /* position: relative; */
+    top: 70px;
+    margin: 10px;
+    height: 100vh;
+    transition: all .5s ease;
+}
+
+.pagebody .container{
+    margin-left: auto;
+    margin-right: auto;
+}

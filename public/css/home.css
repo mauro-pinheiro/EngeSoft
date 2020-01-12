@@ -1,0 +1,27 @@
+#titulo {
+    grid-area: header;
+  }
+  
+  #sm-edicoes {
+    grid-area: edicoes;
+  }
+  
+  #sm-submissoes {
+    grid-area: submissoes;
+  }
+  
+  #sm-avaliacoes{
+    grid-area: avaliacoes;
+  }
+    
+  #home-body{
+    grid-area: body;
+    display: grid;
+    grid-template: 
+      "edicoes avaliacoes"
+      "submissoes submissoes";
+  
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: .4rem
+  }

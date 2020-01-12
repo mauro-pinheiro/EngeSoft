@@ -15,13 +15,19 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/598d73746c.js" crossorigin="anonymous"></script>
 
     <!-- Styles -->
+    <link href="{{ asset('css/reset.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/topbar.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/pagebody.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+        <nav class="navbar navbar-expand-md topbar shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -72,7 +78,36 @@
             </div>
         </nav>
 
-        <main class="py-4">
+            <input type='checkbox' id='check'>
+            <label for='check'>
+                <i class="fas fa-bars" id="btn"></i>
+                <i class="fas fa-times" id="cancel"></i>
+            </label>
+            <nav class='sidebar'>
+                <header>{{config('app.name', 'Laravel')}}</header>
+                <ul>
+                    <li>
+                        <a href=""><i class="fas fa-users"></i> Perfil</a>
+                    </li>
+                    <li>
+                    <a href="{{url('editions')}}"><i class="far fa-newspaper"></i> Edicões</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="far fa-star"></i> Avaliações</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="far fa-question-circle"></i> Sobre</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fas fa-cog"></i> Configurações</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fas fa-envelope"></i> Contato</a>
+                    </li>
+                </ul>
+            </div>
+
+        <main class="pagebody">
             @yield('content')
         </main>
     </div>

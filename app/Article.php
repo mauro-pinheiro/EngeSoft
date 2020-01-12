@@ -15,9 +15,9 @@ class Article extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function editions()
+    public function submission()
     {
-        return $this->belongsToMany(Edition::class, 'submissions')->withPivot('number', 'status');
+        return $this->hasMany(Submission::class);
     }
 
     public function evaluators()

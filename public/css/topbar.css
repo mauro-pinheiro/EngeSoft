@@ -1,0 +1,16 @@
+.topbar{
+    /* position: fixed; */
+    height: 70px;
+    /* width: 100%; */
+    background: #063146;
+    text-align: end;
+    color: white;
+}
+
+.user-logado{
+    /* display: block; */
+    /* margin-top: 15px; */
+    position: relative;
+    top: 50%;
+    margin-right: 10%;
+}

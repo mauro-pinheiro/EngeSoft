@@ -1,0 +1,25 @@
+.top-bar{
+    grid-area: top-bar;
+}
+
+.first-th{
+    width: 35%;
+}
+
+#titulo{
+    grid-area: header;
+}
+
+#edicoes{
+    grid-area: body;
+}
+
+#footer{
+    grid-area: footer;
+}
+
+caption{
+    display: none;
+}
+
+
