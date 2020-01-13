@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>{{config('app.name', 'Laravel')}} - Edicões</h1>
-<table class='table table-hover table-bordered']>
+<div class="container">
+    <h1>{{config('app.name', 'Laravel')}} - Edicões</h1>
+    <table class='table table-hover table-bordered'>
     <thead>
         <th>Tema</th>
         <th>Editor-Chefe</th>
@@ -25,8 +26,9 @@
             </tr>
         @endforeach
     </tbody>
-    <footer>
+    <tfoot>
     <a id='btn-add' href="{{url('editions/create')}}">Add</a>
-    </footer>
+    </tfoot>
 </table>
+</div>
 @endsection

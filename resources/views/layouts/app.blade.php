@@ -23,7 +23,7 @@
     <link href="{{ asset('css/topbar.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
     <link href="{{ asset('css/pagebody.css') }}" rel="stylesheet">
-
+    @yield('css')
 </head>
 <body>
     <div id="app">
@@ -110,6 +110,8 @@
         <main class="pagebody">
             @yield('content')
         </main>
+
+        <footer id='footer'>Grupo EngeSoft | Analise 2<br>2019.2</footer>
     </div>
 </body>
 </html>
