@@ -99,7 +99,7 @@
                     <a href="{{url('editions')}}"><i class="far fa-newspaper"></i> Edicões</a>
                 </li>
                 <li>
-                    <a href=""><i class="far fa-star"></i> Avaliações</a>
+                    <a href="{{url(route('evaluations.index'))}}"><i class="far fa-star"></i> Avaliações</a>
                 </li>
                 <li>
                     <a href=""><i class="far fa-question-circle"></i> Sobre</a>

@@ -20,10 +20,10 @@ class Article extends Model
         return $this->hasMany(Submission::class);
     }
 
-    public function evaluators()
+    public function evaluations()
     {
-        return $this->belongsToMany(User::class, 'evaluations')
-            ->withPivot('originality', 'content', 'presentation')
-            ->withTimestamps();
+        return $this->hasMany(Evaluation::class);
+        // ->withPivot('originality', 'content', 'presentation')
+        // ->withTimestamps();
     }
 }

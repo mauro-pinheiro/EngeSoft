@@ -70,8 +70,8 @@ class User extends Authenticatable
 
     public function evaluations()
     {
-        return $this->belongsToMany(Article::class, 'evaluations')
-            ->withPivot(['originality', 'content', 'presentation'])
-            ->withTimestamps();
+        return $this->hasMany(Evaluation::class);
+        // ->withPivot(['originality', 'content', 'presentation'])
+        // ->withTimestamps();
     }
 }

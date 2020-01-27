@@ -17,7 +17,7 @@ class ThemeController extends Controller
     public function store()
     {
         Theme::create($this->validadeRequest());
-        return redirect()->back();
+        return redirect(route('editions.create'));
     }
 
     public function create()

@@ -15,9 +15,9 @@ class CreateEvaluationsTable extends Migration
     {
         Schema::create('evaluations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->tinyInteger('originality');
-            $table->tinyInteger('content');
-            $table->tinyInteger('presentation');
+            $table->tinyInteger('originality')->nullable();
+            $table->tinyInteger('content')->nullable();
+            $table->tinyInteger('presentation')->nullable();
             $table->bigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->bigInteger('article_id');
