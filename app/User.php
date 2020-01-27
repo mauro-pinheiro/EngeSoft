@@ -16,11 +16,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nome',
+        'name',
         'email',
         'institution_id',
-        'endereco',
-        'senha',
+        'address',
+        'password',
     ];
 
     /**
@@ -29,9 +29,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
-
     /**
      * The attributes that should be cast to native types.
      *
@@ -41,10 +40,38 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected function setInstitutionIdAttribute($instituicao)
+
+    /** Relationships */
+
+    public function institution()
     {
-        $this->attributes['institution_id'] = Institution::firstOrCreate([
-            'nome' => $instituicao
-        ]);
+        return $this->belongsTo(Institution::class);
+    }
+
+    public function themes()
+    {
+        return $this->belongsToMany(Theme::class)->withTimestamps();
+    }
+
+    public function edition()
+    {
+        return $this->hasOne(Edition::class);
+    }
+
+    public function articles()
+    {
+        return $this->belongsToMany(Article::class);
+    }
+
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
+    }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
+        // ->withPivot(['originality', 'content', 'presentation'])
+        // ->withTimestamps();
     }
 }

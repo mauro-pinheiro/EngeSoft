@@ -1,0 +1,35 @@
+top-bar{
+    grid-area: top-bar;
+}
+
+.first-th{
+    width: 35%;
+}
+
+#titulo{
+    grid-area: header;
+}
+
+#body{
+    grid-area: body;
+    display: grid;
+    grid-template-rows: 1.5rem auto;
+
+    gap: .4rem;
+}
+
+form{
+    display: grid;
+    grid-template-columns: 85% auto;
+    gap: .4rem;
+}
+
+#footer{
+    grid-area: footer;
+}
+
+caption{
+    display: none;
+}
+
+

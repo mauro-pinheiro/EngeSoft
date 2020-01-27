@@ -1,0 +1,38 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+#titulo {
+  grid-area: header;
+}
+
+#edicoes {
+  grid-area: edicoes;
+}
+
+.first-th {
+  width: 50%;
+}
+
+#submissoes {
+  grid-area: submissoes;
+}
+
+#avaliacoes{
+  grid-area: avaliacoes;
+}
+
+#footer {
+  grid-area: footer;
+  text-align: center;
+}
+
+#body{
+  grid-area: body;
+  display: grid;
+  grid-template: 
+    "edicoes avaliacoes"
+    "submissoes submissoes";
+
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: .4rem
+}

@@ -10,35 +10,33 @@ use Tests\TestCase;
 class InstitutionTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
-    protected $data = ['nome' => 'ifma'];
+    protected function data()
+    {
+        return ['name' => $this->faker->company];
+    }
 
-    /**
-     @test
-     */
-    public function eh_possivel_adicionar_uma_instituicao()
+    public function testCreateNewInstitution()
     {
         // $this->withoutExceptionHandling();
-        $response = $this->post('/instituitions', $this->data);
-
+        $response = $this->post('/instituitions', $this->data());
         $response->assertOk();
         $this->assertCount(1, Institution::all());
     }
 
-    /**
-     @test
-     */
-    public function o_nome_eh_obrigatorio()
+    public function testInstituitionNameIsRequired()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
             '/instituitions',
             array_merge(
-                $this->data,
-                ['nome' => '']
+                $this->data(),
+                ['name' => '']
             )
         );
 
-        $response->assertSessionHasErrors('nome');
+        $response->assertSessionHasErrors('name');
+        $this->assertCount(0, Institution::all());
     }
 }

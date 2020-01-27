@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Institution;
+use App\Theme;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -11,197 +12,210 @@ use Tests\TestCase;
 class UserTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
-    protected $data = [
-        'nome' => 'admin',
-        'email' => 'admin@admin.com',
-        'institution_id' => 'ifma',
-        'endereco' => 'rua 3',
-        'senha' => 'admin123',
-        'senha_confirmation' => 'admin123'
-    ];
+    protected function data()
+    {
+        $password = $this->faker->password(8);
+        $data = [
+            'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'institution_id' => factory(Institution::class)->create()->id,
+            'address' => $this->faker->address,
+            'password' => $password,
+            'password_confirmation' => $password
+        ];
+        // dump($data);
+        return $data;
+    }
 
-    /**
-     @test
-     */
-    public function um_user_pode_ser_cadastrado()
+    public function testCreateNewUser()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
             '/users',
-            $this->data
+            $this->data()
+        );
+
+        // dd(User::first()->institution);
+
+        $response->assertOk();
+        $this->assertCount(1, User::all());
+    }
+
+    public function testUserNameIsRequired()
+    {
+        // $this->withoutExceptionHandling();
+        $response = $this->post(
+            '/users',
+            array_merge(
+                $this->data(),
+                ['name' => '']
+            )
+        );
+
+        $response->assertSessionHasErrors('name');
+        $this->assertCount(0, User::all());
+    }
+
+    public function testUserEmailIsRequired()
+    {
+        // $this->withoutExceptionHandling();
+        $response = $this->post(
+            '/users',
+            array_merge(
+                $this->data(),
+                ['email' => '']
+            )
+        );
+
+        $response->assertSessionHasErrors('email');
+        $this->assertCount(0, User::all());
+    }
+
+    public function testUserEmailIsUnique()
+    {
+        // $this->withoutExceptionHandling();
+        $email = $this->data()['email'];
+        // dump($email);
+        $this->post(
+            '/users',
+            array_merge(
+                $this->data(),
+                ['email' => $email]
+            )
+        );
+
+        $response = $this->post(
+            '/users',
+            array_merge(
+                $this->data(),
+                ['email' => $email]
+            )
+        );
+
+
+        $response->assertSessionHasErrors('email');
+        $this->assertCount(1, User::all());
+    }
+
+    public function testUserEmailIsValide()
+    {
+        // $this->withoutExceptionHandling();
+        $response = $this->post(
+            '/users',
+            array_merge(
+                $this->data(),
+                ['email' => 'admin']
+            )
+        );
+
+        $response->assertSessionHasErrors('email');
+        $this->assertCount(0, User::all());
+    }
+
+    public function testUserInstitutionIsNotRequired()
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->post(
+            '/users',
+            array_merge(
+                $this->data(),
+                ['institution_id' => '']
+            )
         );
 
         $response->assertOk();
         $this->assertCount(1, User::all());
     }
 
-    /**
-     @test
-     */
-    public function o_nome_eh_obrigatorio()
+    public function testUserAddressIsRequired()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
-                ['nome' => '']
+                $this->data(),
+                ['address' => '']
             )
         );
 
-        $response->assertSessionHasErrors('nome');
+        $response->assertSessionHasErrors('address');
+        $this->assertCount(0, User::all());
     }
 
-    /**
-     @test
-     */
-    public function o_email_eh_obrigatorio()
+    public function testUserPasswordIsRequired()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
-                ['email' => '']
+                $this->data(),
+                ['password' => '']
             )
         );
 
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHasErrors('password');
+        $this->assertCount(0, User::all());
     }
 
-    /**
-     @test
-     */
-    public function o_email_eh_unico()
-    {
-        // $this->withoutExceptionHandling();
-        $this->post(
-            '/users',
-            $this->data,
-        );
-
-        $response = $this->post(
-            '/users',
-            $this->data,
-        );
-
-        $response->assertSessionHasErrors('email');
-    }
-
-    /**
-     @test
-     */
-    public function o_email_eh_valido()
+    public function testUserPasswordHasMinOf8Chars()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
-                ['email' => 'admin']
+                $this->data(),
+                ['password' => '123']
             )
         );
 
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHasErrors('password');
+        $this->assertCount(0, User::all());
     }
 
-    /**
-     @test
-     */
-    public function o_instituicao_eh_obrigatorio()
+    public function testUserPasswordConfirmation()
     {
         // $this->withoutExceptionHandling();
         $response = $this->post(
             '/users',
             array_merge(
-                $this->data,
-                ['institution_id' => '']
+                $this->data(),
+                ['password_confirmation' => 'admin1234']
             )
         );
 
-        $response->assertSessionHasErrors('institution_id');
+        $response->assertSessionHasErrors('password');
+        $this->assertCount(0, User::all());
     }
 
-    /**
-     @test
-     */
-    public function o_endereco_eh_obrigatorio()
-    {
-        // $this->withoutExceptionHandling();
-        $response = $this->post(
-            '/users',
-            array_merge(
-                $this->data,
-                ['endereco' => '']
-            )
-        );
+    // public function testUserInstitutionCreatedAutomatically()
+    // {
+    //     $this->withoutExceptionHandling();
+    //     $response = $this->post(
+    //         '/users',
+    //         array_merge(
+    //             $this->data(),
+    //             ['institution_id' => 'ifma']
+    //         )
+    //     );
 
-        $response->assertSessionHasErrors('endereco');
-    }
+    //     $this->assertCount(1, Institution::all());
+    //     $this->assertEquals(User::first()->institution, Institution::first());
+    // }
 
-    /**
-     @test
-     */
-    public function o_senha_eh_obrigatorio()
-    {
-        // $this->withoutExceptionHandling();
-        $response = $this->post(
-            '/users',
-            array_merge(
-                $this->data,
-                ['senha' => '']
-            )
-        );
+    // public function testCannotCreateDuplicatedThemesFromTheThemesList()
+    // {
+    //     $this->withoutExceptionHandling();
+    //     $themes = ['database', 'A.I', 'database'];
+    //     $response = $this->post(
+    //         '/users',
+    //         array_merge(
+    //             $this->data(),
+    //             ['themes' => $themes]
+    //         )
+    //     );
 
-        $response->assertSessionHasErrors('senha');
-    }
-
-    /**
-     @test
-     */
-    public function o_senha_eh_com_no_min_de_8_chars()
-    {
-        // $this->withoutExceptionHandling();
-        $response = $this->post(
-            '/users',
-            array_merge(
-                $this->data,
-                ['senha' => '123']
-            )
-        );
-
-        $response->assertSessionHasErrors('senha');
-    }
-
-    /**
-     @test
-     */
-    public function o_senha_deve_ser_confirmada()
-    {
-        // $this->withoutExceptionHandling();
-        $response = $this->post(
-            '/users',
-            array_merge(
-                $this->data,
-                ['senha_confirmation' => 'admin1234']
-            )
-        );
-
-        $response->assertSessionHasErrors('senha');
-    }
-
-    /**
-      @test
-     */
-    public function deve_adicionar_instituicao_automaticamente()
-    {
-        $this->withoutExceptionHandling();
-        $response = $this->post(
-            '/users',
-            $this->data
-        );
-
-        $this->assertCount(1, Institution::all());
-    }
+    //     $this->assertCount(2, Theme::all());
+    // }
 }
