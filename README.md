@@ -29,8 +29,9 @@ php artisan db:seed
 ```
 
 * Geração da Key
+```PHP
 php artisan key:generate
-
+```
 ### Utilização
 
 * Inicie o Apache.
