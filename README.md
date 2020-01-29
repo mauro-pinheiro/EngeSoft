@@ -18,6 +18,8 @@ composer install -vvv
 copy .ht_Outros\.env.example-pre .env
 ```
 
+* Criar o arquivo "database.sqlite" na pasta database do projeto.
+
 * Faça migração do db
 ```PHP
 php artisan migrate
