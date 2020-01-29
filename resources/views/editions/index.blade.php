@@ -18,7 +18,7 @@
             <td> {{ $edition->theme->name }}</td>
             <td> {{ $edition->leadEditor->name }}</td>
             <td> {{ $edition->month . '/' . $edition->year }}</td>
-            <td> {{ $edition->situacao ? 'Publicada' : 'Não Publicada' }}</td>
+            <td> {{ $edition->publicada }}</td>
             <td>
                 <a href="{{url('/editions/'. $edition->id . '/submit')}}">Submeter</a>
                 <a href="{{url('/editions/'. $edition->id)}}">Visualizar</a>

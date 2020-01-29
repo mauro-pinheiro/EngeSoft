@@ -68,6 +68,11 @@ class User extends Authenticatable
         return $this->hasMany(Submission::class);
     }
 
+    public function conctactFor()
+    {
+        return $this->hasMany(Submission::class);
+    }
+
     public function evaluations()
     {
         return $this->hasMany(Evaluation::class);
