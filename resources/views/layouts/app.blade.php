@@ -102,6 +102,9 @@
                     <a href="{{url(route('evaluations.index'))}}"><i class="far fa-star"></i> Avaliações</a>
                 </li>
                 <li>
+                    <a href="{{url(route('submissions.index'))}}"><i class="far fa-star"></i> Submissões</a>
+                </li>
+                <li>
                     <a href=""><i class="far fa-question-circle"></i> Sobre</a>
                 </li>
                 <li>

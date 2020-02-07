@@ -22,6 +22,8 @@ class CreateSubmissionsTable extends Migration
                 'A',        //Avalidado
                 'S'         //Selecionado
             ]);
+            $table->bigInteger('contact_id')->nullable();
+            $table->foreign('contact_id')->references('id')->on('users');
             $table->bigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->bigInteger('article_id')->nullable();

@@ -22,4 +22,23 @@ class Submission extends Model
     {
         return $this->belongsTo(Article::class);
     }
+
+    public function contact()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getStatusAttribute()
+    {
+        switch ($this->attributes['status']) {
+            case 'I':
+                return "Incompleto";
+            case 'P':
+                return "Pendente";
+            case 'A':
+                return "Avaliado";
+            case 'S':
+                return "Selecionado";
+        }
+    }
 }

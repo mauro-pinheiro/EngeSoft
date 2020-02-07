@@ -6,12 +6,28 @@ use App\Article;
 use App\Edition;
 use App\Submission;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class SubmissionController extends Controller
 {
+    public function index()
+    {
+        $submissions = Submission::all();
+        return view('submissions.index', compact('submissions'));
+    }
+
+    public function update(Submission $submission)
+    {
+        if (!empty($submission->article->authors)) {
+            $submission->status = 'P';
+        }
+        $submission->save();
+        return redirect(route('editions.show',['edition'=>$submission->edition->id]));
+    }
+
     public function store()
     {
         // dd(request()->all());
@@ -43,7 +59,12 @@ class SubmissionController extends Controller
 
     public function create(Edition $edition)
     {
-        return view('submissions.create', compact('edition'));
+        $editions = Edition::all()->filter(function ($k, $v) {
+            if (Carbon::now()->isBefore(Carbon::create($k->year, $k->month, 1))) {
+                return $k;
+            }
+        })->all();
+        return view('submissions.create', compact(['edition', 'editions']));
     }
 
     public function show(Submission $submission)
