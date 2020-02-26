@@ -10,12 +10,12 @@
 
         <div class="form-group">
           <label for="volume">Volume</label>
-          <input type="text" class="form-control" name="volume" aria-describedby="">
+          <input type="text" class="form-control" name="volume">
           {{-- <small name="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
         </div>
 
         <div class="form-group">
-          <label for="number">Numero</label>
+          <label for="number">Número</label>
           <input type="text" class="form-control" name="number">
         </div>
 

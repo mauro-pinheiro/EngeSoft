@@ -18,10 +18,11 @@
             <td> {{ $edition->theme->name }}</td>
             <td> {{ $edition->leadEditor->name }}</td>
             <td> {{ $edition->month . '/' . $edition->year }}</td>
-            <td> {{ $edition->publicada }}</td>
+            <td> {{ $edition->situacao }}</td>
             <td>
-                <a href="{{url('/editions/'. $edition->id . '/submit')}}">Submeter</a>
-                <a href="{{url('/editions/'. $edition->id)}}">Visualizar</a>
+                <a class="btn btn-primary" href="{{url('/editions/'. $edition->id . '/submit')}}"
+                    @if($edition->situacao === "Publicada") hidden @endif>Submeter</a>
+                <a class="btn btn-info" href="{{url('/editions/'. $edition->id)}}">Visualizar</a>
             </td>
             </tr>
         @endforeach

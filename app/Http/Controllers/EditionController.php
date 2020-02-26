@@ -34,7 +34,8 @@ class EditionController extends Controller
             }
             // dd($edition);
         }
-        return view('editions.index', compact('editions'));
+        $titulo = "edicao";
+        return view('editions.index', compact(['editions', 'titulo']));
     }
 
     public function create()
